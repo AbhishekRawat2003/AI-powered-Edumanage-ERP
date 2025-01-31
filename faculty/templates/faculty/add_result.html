@@ -1,0 +1,147 @@
+{% extends "home/faculty_base.html" %}
+{% comment %} {% extends "home/faculty_base.html" %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-6">{{ page_title }}</h2>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="bg-white shadow-md rounded-lg p-8">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="student">Select Student</label>
+                <select name="student_list" id="student" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2">
+                    <option value="" disabled selected>Select a student</option>
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="subject">Select Subject</label>
+                <select name="subject" id="subject" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2">
+                    <option value="" disabled selected>Select a subject</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="test">Test Score</label>
+                <input type="number" name="test" id="test" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2" placeholder="Enter Test Score" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="exam">Exam Score</label>
+                <input type="number" name="exam" id="exam" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2" placeholder="Enter Exam Score" required>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Save Result
+            </button>
+        </form>
+
+        <div class="mt-4">
+            <a href="{% url 'faculty:faculty_home' %}" class="text-blue-500 hover:text-blue-700">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %} {% endcomment %}
+
+
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-center mb-6">{{ page_title }}</h2>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="bg-white shadow-md rounded-lg p-8">
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="student">Select Student</label>
+                <select name="student_list" id="student" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-500" onchange="displayStudentName()">
+                    <option value="" disabled selected>Select a student</option>
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.admin.first_name }} {{ student.admin.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <p class="text-gray-700 text-sm font-semibold" id="student-name"></p>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="subject">Select Subject</label>
+                <select name="subject" id="subject" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-500">
+                    <option value="" disabled selected>Select a subject</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}">{{ subject.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="test">Test Score</label>
+                <input type="number" name="test" id="test" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-500" placeholder="Enter Test Score" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="exam">Exam Score</label>
+                <input type="number" name="exam" id="exam" class="block w-full bg-gray-200 border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-500" placeholder="Enter Exam Score" required>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200">
+                Save Result
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <a href="{% url 'faculty:faculty_home' %}" class="text-blue-500 hover:text-blue-700 underline">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function displayStudentName() {
+        var studentSelect = document.getElementById("student");
+        var studentNameDisplay = document.getElementById("student-name");
+        
+        // Get the selected option
+        var selectedOption = studentSelect.options[studentSelect.selectedIndex];
+
+        // Check if an option was selected and set the student name
+        if (selectedOption.value) {
+            studentNameDisplay.textContent = "Selected Student: " + selectedOption.text;
+        } else {
+            studentNameDisplay.textContent = "";
+        }
+    }
+</script>
+
+{% endblock %}
+
