@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Faculty Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-gray-100 flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="#" class="text-white text-lg font-bold hover:text-yellow-400">Faculty Portal</a>
+        <button id="menu-btn" class="text-white lg:hidden focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+        <div class="hidden lg:flex space-x-6">
+          <a href="{% url 'faculty:faculty_home' %}" class="text-white hover:text-yellow-400 transition">Dashboard</a>
+          <a href="{% url 'faculty:faculty_take_attendance' %}" class="text-white hover:text-yellow-400 transition">Attendance</a>
+          <a href="{% url 'faculty:faculty_apply_leave' %}" class="text-white hover:text-yellow-400 transition">Leave Application</a>
+          <a href="{% url 'faculty:faculty_feedback' %}" class="text-white hover:text-yellow-400 transition">Feedback</a>
+          <a href="{% url 'faculty:faculty_add_result' %}" class="text-white hover:text-yellow-400 transition">Add Results</a>
+          <a href="{% url 'faculty:faculty_view_profile' %}" class="text-white hover:text-yellow-400 transition">Profile</a>
+          <a href="{% url 'authentication:user_logout' %}" class="text-white hover:text-yellow-400 transition">Logout</a>
+        </div>
+      </div>
+      <!-- Mobile Menu -->
+      <div id="menu" class="lg:hidden hidden space-y-2 mt-4 text-center">
+        <a href="{% url 'faculty:faculty_home' %}" class="block text-white hover:text-yellow-400">Dashboard</a>
+        <a href="{% url 'faculty:faculty_take_attendance' %}" class="block text-white hover:text-yellow-400">Attendance</a>
+        <a href="{% url 'faculty:faculty_apply_leave' %}" class="block text-white hover:text-yellow-400">Leave Application</a>
+        <a href="{% url 'faculty:faculty_feedback' %}" class="block text-white hover:text-yellow-400">Feedback</a>
+        <a href="{% url 'faculty:faculty_add_result' %}" class="block text-white hover:text-yellow-400">Add Results</a>
+        <a href="{% url 'faculty:faculty_view_profile' %}" class="block text-white hover:text-yellow-400">Profile</a>
+        <a href="{% url 'authentication:user_logout' %}" class="block text-white hover:text-yellow-400">Logout</a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-6 mt-6 flex-grow">
+      <div class="bg-white shadow-md rounded-lg p-6">
+        {% block content %}
+        <!-- Page-specific content will go here -->
+        <p class="text-gray-700">Welcome to the Faculty Portal!</p>
+        {% endblock %}
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-center text-white py-4 mt-auto">
+      &copy; 2024 EduManage - Student Management System. All rights reserved.
+    </footer>
+
+    <!-- JavaScript for Menu Toggle -->
+    <script>
+      const menuBtn = document.getElementById('menu-btn');
+      const menu = document.getElementById('menu');
+
+      menuBtn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    </script>
+  </body>
+</html>

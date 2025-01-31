@@ -1,0 +1,12 @@
+<!-- student/templates/student/view_profile.html -->
+{% extends 'home/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ page_title }}</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

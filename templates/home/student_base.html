@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="" />
+  </head>
+  <body class='text-sm'>
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-white text-lg font-bold">Welcome !!</a>
+            <button id="menu-btn" class="text-white lg:hidden focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+            <div class="hidden lg:flex space-x-4">
+                <a href="{% url 'student:student_home' %}" class="text-white hover:text-yellow-400">Dashboard</a>
+                <a href="{% url 'student:student_view_attendance'%}" class="text-white hover:text-yellow-400">Attendance</a>
+                <a href="{% url 'student:student_apply_leave'%}" class="text-white hover:text-yellow-400">Leave Application</a>
+                <a href="{% url 'student:student_feedback' %}" class="text-white hover:text-yellow-400">Feedback</a>
+                <a href="{% url 'student:student_view_result' %}" class="text-white hover:text-yellow-400">Results</a>
+                <a href="{% url 'authentication:user_logout' %}" class="text-white hover:text-yellow-400">Logout</a>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="menu" class="lg:hidden hidden space-y-2 mt-4 ">
+            <ul class="lg:flex space-x-6 text-white text-center ">
+            <li><a href="{% url 'student:student_home' %}" class="text-white hover:text-yellow-400 ">Dashboard</a></li>
+            <li><a href="{% url 'student:student_view_attendance'%}" class="text-white hover:text-yellow-400 ">Attendance</a></li>
+            <li><a href="{% url 'student:student_apply_leave'%}" class="text-white hover:text-yellow-400 ">Leave Application</a></li>
+            <li><a href="{% url 'student:student_feedback' %}" class="text-white hover:text-yellow-400 ">Feedback</a></li>
+            <li><a href="{% url 'student:student_view_result' %}" class="text-white hover:text-yellow-400 ">Results</a></li>
+            <li><a href="{% url 'authentication:user_logout' %}" class="text-white hover:text-yellow-400  ">Logout</a></li>
+        </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+      {% block content %}
+      <!-- Page-specific content will go here -->
+      {% endblock %}
+    </div>
+
+    {% comment %} <footer class="bg-gray-800 text-center text-white py-4 mt-auto">
+        &copy; 2024 EduManage:- Student Management System. All rights reserved.
+    </footer> {% endcomment %}
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const menu = document.getElementById('menu');
+
+        menuBtn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
+    <script src="" async defer></script>
+  </body>
+</html>

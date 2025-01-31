@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HOD Panel{% endblock %}</title>
+    {% comment %} <link href="{% static 'css/tailwind.css' %}" rel="stylesheet"> {% endcomment %}
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white font-bold text-lg">
+                HOD Panel
+            </div>
+            <ul class="flex space-x-6 text-white">
+                <li>
+                    <a href="{% url 'faculty:admin_home' %}" class="hover:underline">Dashboard</a>
+                </li>
+                <li>
+                    <a href="{% url 'faculty:admin_view_profile' %}" class="hover:underline">Profile</a>
+                </li>
+                <li>
+                    <a href="{% url 'authentication:user_logout' %}" class="hover:underline">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-6">
+        {% block content %}
+        <!-- Dynamic Content for HOD Dashboard/Pages -->
+        {% endblock %}
+    </div>
+
+    {% comment %} <footer class="bg-blue-600 text-white p-4 mt-10 text-center">
+        &copy; 2024 EduManage - All Rights Reserved
+    </footer> {% endcomment %}
+</body>
+</html>

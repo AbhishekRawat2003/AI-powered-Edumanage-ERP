@@ -1,0 +1,58 @@
+{% extends 'home/student_base.html' %}
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-4">{{ page_title }}</h2>
+
+    <div class="bg-white shadow-lg rounded-lg p-6 mt-4 border border-gray-300">
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            <div>
+                <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Leave Date</label>
+                <input type="date" id="date" name="date" class="border border-gray-300 rounded-md p-2 w-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+            </div>
+            <div>
+                <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Reason for Leave</label>
+                <textarea id="message" name="message" rows="4" class="border border-gray-300 rounded-md p-2 w-full h-24 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200 w-full">Apply for Leave</button>
+        </form>
+
+        {% if messages %}
+            <div class="mt-4">
+                {% for message in messages %}
+                    <div class="text-green-500 font-medium">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <h3 class="mt-8 text-2xl font-semibold bg- text-gray-800">Leave History</h3>
+    <div class="overflow-x-auto mt-2">
+        <table class="min-w-full bg-white shadow-lg rounded-lg border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="py-3 px-4 text-left text-gray-600 ">Date of Leave</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Reason</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leave_history %}
+                <tr class="hover:bg-gray-100 transition duration-200 border-t border-gray-300">
+                    <td class="py-2 px-4 font-semibold text-gray-700 border-r">{{ leave.date }}</td>
+                    <td class="py-2 px-4 text-gray-800 border-r">{{ leave.message }}</td>
+                    <td class="py-2 px-4 {% if leave.status|lower == 'approved' %}text-green-600 font-semibold{% else %}text-red-600 font-semibold{% endif %}">
+                        {{ leave.status }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center py-2 text-gray-600">No leave history available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+{% endblock %}
