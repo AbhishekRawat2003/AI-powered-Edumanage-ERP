@@ -1,0 +1,249 @@
+{%extends "home/hod_base.html" %} {% block content %} {% comment %}
+<div class="container mx-auto mt-10">
+  <h1 class="text-3xl font-bold mb-4">Courses</h1>
+  <div class="flex flex-wrap justify-between">
+    {% for course in courses %}
+    <div
+      class="bg-blue-100 p-6 m-4 rounded-lg shadow-lg w-full md:w-1/4 cursor-pointer"
+      onclick="toggleDetails('course-{{ course.id }}')"
+    >
+      <h2 class="text-xl font-semibold">{{ course.name }}</h2>
+      <p>{{ course.description }}</p>
+    </div>
+    {% empty %}
+    <div class="w-full">
+      <p>No courses available</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Hidden details and action buttons based on course -->
+  {% for course in courses %}
+  <div id="course-{{ course.id }}" class="hidden mt-6">
+    <h3 class="text-2xl font-bold mb-4">
+      {{ course.name }} - Subjects by Year
+    </h3>
+    <ul class="list-disc pl-5">
+      {% for year, subjects in course.get_subjects_by_year.items %}
+      <li>
+        <strong>Year {{ year }}:</strong>
+        {{ subjects|join:", " }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Action buttons -->
+    <div class="mt-4">
+      <a
+        href="{% url 'faculty:manage_course' %}"
+        class="bg-green-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-green-600"
+      >
+        Manage Course
+      </a>
+      <a
+        href="{% url 'faculty:edit_course' course.id %}"
+        class="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-yellow-600"
+      >
+        Edit Course
+      </a>
+      <a
+        href="{% url 'faculty:delete_course' course.id %}"
+        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+        onclick="return confirm('Are you sure you want to delete this course?');"
+      >
+        Delete Course
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  function toggleDetails(courseId) {
+    const courseElement = document.getElementById(courseId);
+    if (courseElement.classList.contains("hidden")) {
+      courseElement.classList.remove("hidden");
+    } else {
+      courseElement.classList.add("hidden");
+    }
+  }
+</script>
+{% endcomment %} {% comment %}
+<div class="container mx-auto mt-10">
+  <h1 class="text-3xl font-bold mb-4">Courses</h1>
+  <div class="flex flex-wrap justify-between">
+    {% for course in courses %}
+    <div
+      class="bg-blue-100 p-6 m-4 rounded-lg shadow-lg w-full md:w-1/4 cursor-pointer"
+      onclick="toggleDetails('course-{{ course.id }}')"
+    >
+      <h2 class="text-xl font-semibold">{{ course.name }}</h2>
+      <p>{{ course.description }}</p>
+    </div>
+    {% empty %}
+    <div class="w-full">
+      <p>No courses available</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Hidden details and action buttons based on course -->
+  {% for course in courses %}
+  <div id="course-{{ course.id }}" class="hidden mt-6">
+    <h3 class="text-2xl font-bold mb-4">
+      {{ course.name }} - Subjects by Year
+    </h3>
+    <ul class="list-disc pl-5">
+      {% for year, subjects in course.get_subjects_by_year.items %}
+      <li>
+        <strong>Year {{ year }}:</strong>
+        {{ subjects|join:", " }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Action buttons -->
+    <div class="mt-4">
+      <a
+        href="{% url 'faculty:manage_course' %}"
+        class="bg-green-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-green-600"
+      >
+        Manage Course
+      </a>
+      <a
+        href="{% url 'faculty:edit_course' course.id %}"
+        class="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-yellow-600"
+      >
+        Edit Course
+      </a>
+      <a
+        href="{% url 'faculty:delete_course' course.id %}"
+        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+        onclick="return confirm('Are you sure you want to delete this course?');"
+      >
+        Delete Course
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  function toggleDetails(courseId) {
+    const courseElement = document.getElementById(courseId);
+    if (courseElement.classList.contains("hidden")) {
+      // Hide all other course details
+      const allCourses = document.querySelectorAll('[id^="course-"]');
+      allCourses.forEach((element) => {
+        if (element !== courseElement) {
+          element.classList.add("hidden");
+        }
+      });
+      // Show selected course details
+      courseElement.classList.remove("hidden");
+    } else {
+      courseElement.classList.add("hidden");
+    }
+  }
+</script>
+{% endcomment %}
+
+<div class="container mx-auto mt-10">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">Courses</h1>
+  <div class="d-flex justify-content-end mb-6 font-bold">
+    <form
+      action="{% url 'faculty:add_course' %}"
+      method="get"
+      class="flex flex-row-reverse gap-1"
+    >
+      <button
+        type="submit"
+        class="btn btn-primary text-bold border border-gray-800 rounded bg-gray-700 text-white p-1"
+      >
+        Add Course
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary text-bold border border-gray-800 rounded bg-gray-700 text-white p-1"
+      >
+        <a href="{% url 'faculty:manage_course' %}"> Manage Course </a>
+      </button>
+    </form>
+  </div>
+  <div class="flex flex-wrap justify-between">
+    {% for course in courses %}
+    <div
+      class="bg-blue-100 p-6 m-4 rounded-lg shadow-lg w-full md:w-1/4 cursor-pointer mb-4"
+      onclick="toggleDetails('course-{{ course.id }}')"
+    >
+      <h2 class="text-xl font-semibold">{{ course.name }}</h2>
+      <p>{{ course.description }}</p>
+    </div>
+    {% empty %}
+    <div class="w-full">
+      <p>No courses available</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Hidden details and action buttons based on course -->
+  {% for course in courses %}
+  <div id="course-{{ course.id }}" class="hidden mt-4">
+    <h3 class="text-2xl font-bold mb-4">
+      {{ course.name }} - Subjects by Year
+    </h3>
+    <ul class="list-disc pl-5 mb-4">
+      {% for year, subjects in course.get_subjects_by_year.items %}
+      <li>
+        <strong>Year {{ year }}:</strong>
+        {{ subjects|join:", " }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Action buttons -->
+    <div class="mt-4">
+      {% comment %}
+      <a
+        href="{% url 'faculty:manage_course' %}"
+        class="bg-green-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-green-600"
+      >
+        {% endcomment %} {% comment %} Manage Course {% endcomment %}
+      </a>
+      <a
+        href="{% url 'faculty:edit_course' course.id %}"
+        class="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-yellow-600"
+      >
+        Edit Course
+      </a>
+      <a
+        href="{% url 'faculty:delete_course' course.id %}"
+        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+        onclick="return confirm('Are you sure you want to delete this course?');"
+      >
+        Delete Course
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  function toggleDetails(courseId) {
+    const courseElement = document.getElementById(courseId);
+    const isHidden = courseElement.classList.contains("hidden");
+
+    // Hide all other course details
+    const allCourses = document.querySelectorAll('[id^="course-"]');
+    allCourses.forEach((element) => {
+      element.classList.add("hidden");
+    });
+
+    // Show the selected course details if it was hidden
+    if (isHidden) {
+      courseElement.classList.remove("hidden");
+    }
+  }
+</script>
+
+{% endblock %}

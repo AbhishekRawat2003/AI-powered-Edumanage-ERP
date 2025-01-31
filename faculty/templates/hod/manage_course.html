@@ -1,0 +1,69 @@
+{% extends "home/hod_base.html" %} 
+{% block content %}
+<div class="flex flex-wrap justify-between">
+  {% for course in courses %}
+  <div
+    class="bg-blue-100 p-6 m-4 rounded-lg shadow-lg w-full md:w-1/4 cursor-pointer mb-4"
+    onclick="toggleDetails('course-{{ course.id }}')"
+  >
+    <h2 class="text-xl font-semibold">{{ course.name }}</h2>
+    <p>{{ course.description }}</p>
+  </div>
+  {% empty %}
+  <div class="w-full">
+    <p>No courses available</p>
+  </div>
+  {% endfor %}
+</div>
+
+{% for course in courses %}
+<div id="course-{{ course.id }}" class="hidden mt-4">
+  <h3 class="text-2xl font-bold mb-4">{{ course.name }} - Subjects by Year</h3>
+  <ul class="list-disc pl-5 mb-4">
+    {% for year, subjects in course.get_subjects_by_year.items %}
+    <li>
+      <strong>Year {{ year }}:</strong>
+      {{ subjects|join:", " }}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <div class="mt-4">
+    <form
+      action="{% url 'faculty:delete_course' course.id %}"
+      method="post"
+      class="delete-course-form"
+      onsubmit="return confirm('Are you sure you want to delete this course and all its subjects?');"
+    >
+      {% csrf_token %}
+      <button
+        type="submit"
+        class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+      >
+        Delete Course
+      </button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+    function toggleDetails(courseId) {
+      const courseElement = document.getElementById(courseId);
+      const isHidden = courseElement.classList.contains("hidden");
+  
+      // Hide all course details
+      const allCourses = document.querySelectorAll('[id^="course-"]');
+      allCourses.forEach((element) => {
+        element.classList.add("hidden");
+      });
+  
+      // If the clicked course was hidden, show it
+      if (isHidden) {
+        courseElement.classList.remove("hidden");
+      }
+    }
+  </script>
+</script>
+
+{% endblock %}
